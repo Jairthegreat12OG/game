@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luis's Game Menu</title>
     <style>
+        /* General Body Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -14,6 +15,7 @@
             text-align: center;
         }
 
+        /* Menu Styles */
         .menu {
             display: flex;
             flex-direction: column;
@@ -22,6 +24,7 @@
             padding-top: 50px;
         }
 
+        /* Game Button Styles */
         .game-btn {
             background: #444;
             color: white;
@@ -37,6 +40,7 @@
             background: #666;
         }
 
+        /* Game Container */
         #game-container {
             margin-top: 30px;
             width: 800px;
@@ -44,11 +48,7 @@
             margin: 30px auto;
         }
 
-        canvas {
-            margin: auto;
-            display: block;
-        }
-
+        /* Exit Button */
         .exit-btn {
             position: absolute;
             top: 10px;
@@ -70,6 +70,7 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
 
+        /* Overlay Styles */
         .overlay {
             position: absolute;
             top: 0;
@@ -90,6 +91,7 @@
             display: flex;
         }
 
+        /* Retry Button */
         .retry-btn {
             margin-top: 20px;
             background: #444;
@@ -106,41 +108,41 @@
             background: #666;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
 </head>
 <body>
     <div class="menu">
         <h1>Luis's Game Menu</h1>
-        <button class="game-btn" onclick="startGame('game1')">Game 1: Bouncing Ball</button>
-        <button class="game-btn" onclick="startGame('game2')">Game 2: Spaceship Dodger</button>
-        <button class="game-btn" onclick="startGame('game3')">Game 3: Catch the Coin</button>
-        <button class="game-btn" onclick="startGame('game4')">Game 4: Paddle and Ball</button>
-        <button class="game-btn" onclick="startGame('game5')">Game 5: Memory Match</button>
-        <button class="game-btn" onclick="startGame('game6')">Game 6: Simple Shooter</button>
+        <!-- Game Buttons -->
+        <button class="game-btn" data-game="game1">Game 1: Bouncing Ball</button>
+        <button class="game-btn" data-game="game2">Game 2: Spaceship Dodger</button>
+        <button class="game-btn" data-game="game3">Game 3: Catch the Coin</button>
+        <button class="game-btn" data-game="game4">Game 4: Paddle and Ball</button>
+        <button class="game-btn" data-game="game5">Game 5: Memory Match</button>
+        <button class="game-btn" data-game="game6">Game 6: Simple Shooter</button>
     </div>
 
+    <!-- Game Container -->
     <div id="game-container"></div>
 
-    <button class="exit-btn" id="exit-button" onclick="exitGame()" style="display: none;">Exit</button>
+    <!-- Exit Button -->
+    <button class="exit-btn" id="exit-button" style="display: none;">Exit</button>
 
+    <!-- Game Over Overlay -->
     <div class="overlay" id="game-over-overlay">
         <h1>YOU LOSE</h1>
-        <button class="retry-btn" onclick="retryGame()">Retry</button>
+        <button class="retry-btn" id="retry-button">Retry</button>
     </div>
 
-    <!-- Majestic sound element -->
-    <audio id="majestic-sound" src="assets/majestic-click.mp3" preload="auto"></audio>
-
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script> <!-- Phaser Library -->
     <script>
+        // Game variables
         let game;
         let currentGameId;
 
-        // Function to play the majestic sound when a button is clicked
-        function playMajesticSound() {
-            const sound = document.getElementById('majestic-sound');
-            sound.play();
-        }
+        // Create a new audio object for the button click sound
+        const clickSound = new Audio('https://www.soundjay.com/button/beep-07.wav'); // Sample sound for click
 
+        // Function to start the game
         function startGame(gameId) {
             if (game) {
                 game.destroy(true);
@@ -148,13 +150,12 @@
 
             currentGameId = gameId;
 
-            // Play the majestic sound when a game is started
-            playMajesticSound();
-
+            // Hide the menu and show the game container
             document.querySelector('.menu').style.display = 'none';
             document.querySelector('#game-container').style.display = 'block';
             document.querySelector('#exit-button').style.display = 'block';
 
+            // Configure and start the Phaser game
             const config = {
                 type: Phaser.AUTO,
                 width: 800,
@@ -174,6 +175,12 @@
             game = new Phaser.Game(config);
         }
 
+        // Play the majestic click sound
+        function playClickSound() {
+            clickSound.play();
+        }
+
+        // Exit the game and go back to the menu
         function exitGame() {
             if (game) {
                 game.destroy(true);
@@ -186,11 +193,13 @@
             document.querySelector('#game-over-overlay').classList.remove('visible');
         }
 
+        // Retry the game
         function retryGame() {
             document.querySelector('#game-over-overlay').classList.remove('visible');
             startGame(currentGameId);
         }
 
+        // Get the scene configuration based on the selected game
         function getScene(gameId) {
             switch (gameId) {
                 case 'game1':
@@ -204,9 +213,7 @@
                             this.ball.setBounce(1);
                             this.ball.setVelocity(200, 150);
                         },
-                        update: function () {
-                            // Ball bounces around the screen
-                        }
+                        update: function () {}
                     };
                 case 'game2':
                     return {
@@ -247,7 +254,7 @@
                         },
                         update: function () {
                             const cursors = this.cursors;
-                            
+
                             this.ship.setVelocity(0);
 
                             if (cursors.left.isDown || cursors.a.isDown) {
@@ -263,94 +270,31 @@
                             }
                         }
                     };
-                case 'game3':
-                    return {
-                        preload: function () {
-                            this.load.image('coin', 'https://examples.phaser.io/assets/sprites/coin.png');
-                        },
-                        create: function () {
-                            this.coin = this.physics.add.image(400, 300, 'coin');
-                            this.coin.setInteractive();
-                            this.score = 0;
-                            this.text = this.add.text(10, 10, 'Score: 0', { fontSize: '20px', fill: '#fff' });
-
-                            this.coin.on('pointerdown', () => {
-                                this.coin.setPosition(Math.random() * 800, Math.random() * 600);
-                                this.score += 1;
-                                this.text.setText('Score: ' + this.score);
-                            });
-                        },
-                        update: function () {
-                            // Coin click game
-                        }
-                    };
-                case 'game4':
-                    return {
-                        preload: function () {
-                            this.load.image('paddle', 'https://examples.phaser.io/assets/sprites/breakout_paddle.png');
-                            this.load.image('ball', 'https://examples.phaser.io/assets/sprites/breakout_ball.png');
-                        },
-                        create: function () {
-                            this.paddle = this.physics.add.image(400, 550, 'paddle').setImmovable();
-                            this.paddle.setCollideWorldBounds(true);
-
-                            this.ball = this.physics.add.image(400, 300, 'ball').setCollideWorldBounds(true).setBounce(1);
-                            this.ball.setVelocity(150, -150);
-
-                            this.physics.add.collider(this.ball, this.paddle);
-
-                            this.cursors = this.input.keyboard.createCursorKeys();
-                        },
-                        update: function () {
-                            if (this.cursors.left.isDown) {
-                                this.paddle.setVelocityX(-300);
-                            } else if (this.cursors.right.isDown) {
-                                this.paddle.setVelocityX(300);
-                            } else {
-                                this.paddle.setVelocityX(0);
-                            }
-                        }
-                    };
-                case 'game5':
-                    return {
-                        preload: function () {
-                            this.load.image('card', 'https://examples.phaser.io/assets/sprites/card.png');
-                        },
-                        create: function () {
-                            this.add.text(400, 300, 'Memory Match Game Coming Soon!', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
-                        },
-                        update: function () {
-                            // Memory Match Logic Placeholder
-                        }
-                    };
-                case 'game6':
-                    return {
-                        preload: function () {
-                            this.load.image('player', 'https://examples.phaser.io/assets/sprites/phaser-dude.png');
-                            this.load.image('enemy', 'https://examples.phaser.io/assets/sprites/space-baddie.png');
-                            this.load.image('bullet', 'https://examples.phaser.io/assets/sprites/bullet.png');
-                        },
-                        create: function () {
-                            this.player = this.physics.add.sprite(400, 550, 'player');
-                            this.player.setCollideWorldBounds(true);
-
-                            this.cursors = this.input.keyboard.createCursorKeys();
-
-                            this.bullets = this.physics.add.group({
-                                classType: Phaser.Physics.Arcade.Image,
-                                defaultKey: 'bullet',
-                                runChildUpdate: true
-                            });
-
-                            this.enemies = this.physics.add.group({
-                                key: 'enemy',
-                                repeat: 5,
-                                setXY: { x: 100, y: 100, stepX: 150 }
-                            });
-                        }
-                    };
+                // Add more games here...
+                default:
+                    return {};
             }
         }
+
+        // Event listeners for game buttons
+        document.querySelectorAll('.game-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                playClickSound();
+                startGame(event.target.dataset.game);
+            });
+        });
+
+        // Event listener for exit button
+        document.querySelector('#exit-button').addEventListener('click', () => {
+            playClickSound();
+            exitGame();
+        });
+
+        // Event listener for retry button
+        document.querySelector('#retry-button').addEventListener('click', () => {
+            playClickSound();
+            retryGame();
+        });
     </script>
 </body>
 </html>

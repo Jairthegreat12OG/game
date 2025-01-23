@@ -3,178 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Calculator</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #2c3e50;
-            color: white;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .calculator {
-            background: #34495e;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .display {
-            width: 320px;
-            height: 70px;
-            background-color: #1e2a34;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 36px;
-            text-align: right;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .button {
-            background-color: #16a085;
-            color: white;
-            width: 70px;
-            height: 70px;
-            border: none;
-            border-radius: 10px;
-            font-size: 24px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .button:hover {
-            background-color: #1abc9c;
-        }
-
-        .button:active {
-            background-color: #16a085;
-        }
-
-        .button-function {
-            background-color: #8e44ad;
-        }
-
-        .button-function:hover {
-            background-color: #9b59b6;
-        }
-
-        .button-equal {
-            background-color: #e74c3c;
-        }
-
-        .button-equal:hover {
-            background-color: #c0392b;
-        }
-
-        .button-clear {
-            background-color: #f39c12;
-        }
-
-        .button-clear:hover {
-            background-color: #f1c40f;
-        }
-
-        .button-science {
-            background-color: #2980b9;
-        }
-
-        .button-science:hover {
-            background-color: #3498db;
-        }
-    </style>
+    <title>My Video Platform</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="calculator">
-        <input type="text" class="display" id="display" disabled>
-        
-        <!-- Rows of calculator buttons -->
-        <div class="button-row">
-            <button class="button button-clear" onclick="clearDisplay()">C</button>
-            <button class="button button-function" onclick="appendToDisplay('%')">%</button>
-            <button class="button button-function" onclick="appendToDisplay('/')">/</button>
-            <button class="button button-function" onclick="appendToDisplay('*')">*</button>
-        </div>
-        <div class="button-row">
-            <button class="button" onclick="appendToDisplay('7')">7</button>
-            <button class="button" onclick="appendToDisplay('8')">8</button>
-            <button class="button" onclick="appendToDisplay('9')">9</button>
-            <button class="button button-function" onclick="appendToDisplay('sqrt(')">√</button>
-        </div>
-        <div class="button-row">
-            <button class="button" onclick="appendToDisplay('4')">4</button>
-            <button class="button" onclick="appendToDisplay('5')">5</button>
-            <button class="button" onclick="appendToDisplay('6')">6</button>
-            <button class="button button-function" onclick="appendToDisplay('pow(')">x²</button>
-        </div>
-        <div class="button-row">
-            <button class="button" onclick="appendToDisplay('1')">1</button>
-            <button class="button" onclick="appendToDisplay('2')">2</button>
-            <button class="button" onclick="appendToDisplay('3')">3</button>
-            <button class="button button-function" onclick="appendToDisplay('log(')">log</button>
-        </div>
-        <div class="button-row">
-            <button class="button" onclick="appendToDisplay('0')">0</button>
-            <button class="button" onclick="appendToDisplay('.')">.</button>
-            <button class="button button-equal" onclick="calculate()">=</button>
-            <button class="button button-function" onclick="appendToDisplay('sin(')">sin</button>
-        </div>
-        <div class="button-row">
-            <button class="button" onclick="appendToDisplay('cos(')">cos</button>
-            <button class="button" onclick="appendToDisplay('tan(')">tan</button>
-            <button class="button-science" onclick="appendToDisplay('(')">(</button>
-            <button class="button-science" onclick="appendToDisplay(')')">)</button>
-        </div>
-    </div>
+<header>
+    <h1>My Video Platform</h1>
+    <p>Watch, upload, and enjoy!</p>
+</header>
 
-    <script>
-        // Function to append text to the display
-        function appendToDisplay(value) {
-            document.getElementById('display').value += value;
-        }
+<main>
+    <section class="video-list">
+        <div class="video-card">
+            <video controls>
+                <source src="https://path_to_your_video/video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>Video Title 1</p>
+        </div>
 
-        // Function to clear the display
-        function clearDisplay() {
-            document.getElementById('display').value = '';
-        }
+        <div class="video-card">
+            <video controls>
+                <source src="https://path_to_your_video/video2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>Video Title 2</p>
+        </div>
+    </section>
+</main>
 
-        // Function to perform the calculation
-        function calculate() {
-            let expression = document.getElementById('display').value;
-            
-            try {
-                // Handle scientific functions by using math.js
-                expression = expression.replace(/sin\(/g, 'Math.sin(')
-                                       .replace(/cos\(/g, 'Math.cos(')
-                                       .replace(/tan\(/g, 'Math.tan(')
-                                       .replace(/sqrt\(/g, 'Math.sqrt(')
-                                       .replace(/log\(/g, 'Math.log10(')
-                                       .replace(/pow\(/g, 'Math.pow(');
+<footer>
+    <p>&copy; 2025 My Video Platform</p>
+</footer>
 
-                let result = eval(expression);
-                
-                if (result === Infinity || result === -Infinity || isNaN(result)) {
-                    throw 'Math error';
-                }
-                document.getElementById('display').value = result;
-            } catch (e) {
-                document.getElementById('display').value = 'Error';
-            }
-        }
-    </script>
-
+<script src="script.js"></script>
 </body>
 </html>

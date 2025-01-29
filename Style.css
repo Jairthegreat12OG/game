@@ -1,1 +1,43 @@
+/* Game styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #87CEEB; /* Sky Blue Background */
+  font-family: sans-serif;
+}
+
+#game {
+  margin: 0 auto;
+  display: block;
+  background-color: #7CFC00; /* Ground Color */
+  position: relative;
+  overflow: hidden;
+  width: 800px;
+  height: 400px;
+}
+
+.mario {
+  width: 50px;
+  height: 50px;
+  background-color: red; /* Mario's "color" (replace with an image if you'd like) */
+  position: absolute;
+  bottom: 50px;
+}
+
+.platform {
+  width: 300px;
+  height: 20px;
+  background-color: #8B4513; /* Platform color */
+  position: absolute;
+  bottom: 100px;
+  left: 250px;
+}
+
+.ground {
+  width: 100%;
+  height: 50px;
+  background-color: #654321; /* Ground color */
+  position: absolute;
+  bottom: 0;
+}
 
